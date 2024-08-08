@@ -119,3 +119,53 @@ $graph:
       doc: |
         Maximum number of GPU devices to request.  If not specified,
         same as `cudaDeviceCountMin`.
+
+- name: DaskRequirement
+  type: record
+  extends: cwl:ProcessRequirement
+  inVocab: false
+  doc: |
+    Indicates that a process requires a [Dask Gateway](https://gateway.dask.org/) runtime.
+  fields:
+    class:
+      type: string
+      doc: "Always 'DaskRequirement'"
+      jsonldPredicate:
+        "_id": "@type"
+        "_type": "@vocab"
+    address:
+      type: [string, cwl:Expression]
+      doc: |
+        The full address of the dask-gateway server.address
+    proxy_address:
+      type: ["null", string, cwl:Expression]
+      doc: |
+        The full address of the dask-gateway scheduler proxy.
+        If not provided, this defaults to `address`.
+    auth:
+      type: [string, cwl:Expression]
+      doc: |
+        The authentication method to use.
+    worker_cores:
+      type: [int, cwl:Expression]
+      doc: |
+        The number of workers.
+    environment:
+      type: [string, cwl:Expression]
+      doc: |
+        The Conda Environment.
+    minimum_workers:
+      type: ["null", int, cwl:Expression]
+      doc: |
+        The minimum number of workers.
+        If not provided, this defaults to `worker_cores`.
+    maximum_workers:
+      type: ["null", int, cwl:Expression]
+      doc: |
+        The maximum number of workers.
+        If not provided, this will be ignored.
+    shutdown_on_close:
+      type: ["null", boolean, cwl:Expression]
+      doc: |
+        Flag to allow Dask clusters to persist longer than the lifetime of your client process.
+        If not provided, this defaults to `true`.
